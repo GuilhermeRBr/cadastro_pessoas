@@ -1,10 +1,11 @@
 dados = []
 pessoas = []
-mai = men = 0
-maxi = []
-mini = []
+
 
 def cadastrar_pessoa():
+    mai = men = 0
+
+
     try:
         while True:
 
@@ -13,15 +14,25 @@ def cadastrar_pessoa():
                 if nome.isalpha():
                     break
                 print('Digite apenas letras')
+
             while True:
-                peso = input('Peso: ')
+                peso = input('Peso [Kg]: ')
                 if peso.isnumeric():
                     peso = int(peso)
                     break
                 print('Digite apenas numeros')
 
-            dados.append(nome)
+            while True:
+                altura = input('Altura [Cm]: ')
+                if altura.isnumeric():
+                    altura = int(altura)
+                    break
+                print('Digite apenas numeros')
+
+            dados.append(nome.capitalize())
             dados.append(peso)
+            dados.append(altura)
+            dados.append(calcula_imc(peso, altura))
 
             if len(pessoas) == 0:
                 mai = men = dados[1]
@@ -42,20 +53,12 @@ def cadastrar_pessoa():
                 else:
                     print('Digite apenas S ou N')
                     
-                if opcao == 'n':
-                    break
+            if opcao == 'n':
+                return mai, men
     except Exception as e:
         print('\nOuve um erro: ', e)
 
-cadastrar_pessoa()
 
-print(f'Foram cadastradas {len(pessoas)} pessoas')
-print(f'O maior peso foi de {mai}KG. O peso foi de: ', end='')
-for p in pessoas:
-    if p[1] == mai:
-        print(p[0], end=' ')
-print(f'\nO menor peso foi de {men}KG. O peso foi de: ', end='')
-for p in pessoas:
-    if p[1] == men:
-        print(p[0], end=' ')
-
+def calcula_imc(peso, altura):
+    imc = peso / ((altura / 100)** 2)
+    return imc
